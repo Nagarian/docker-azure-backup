@@ -11,10 +11,10 @@ cat > /opt/src/exec.sh << EOF
 export AZURE_STORAGE_ACCOUNT=$AZURE_STORAGE_ACCOUNT
 export AZURE_STORAGE_ACCESS_KEY=$AZURE_STORAGE_ACCESS_KEY
 
-azure storage blob upload /var/files/$1 $CONTAINER
+azure storage blob upload /var/files/\$1 $CONTAINER
 
 EOF
 
 chmod 511 /opt/src/exec.sh
 
-service incron start
+incrond
