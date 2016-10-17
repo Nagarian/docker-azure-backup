@@ -13,3 +13,4 @@ RUN chmod 777 /opt/src/run.sh
 VOLUME ["/var/files"]
 
 ENTRYPOINT ["/opt/src/run.sh"]
+CMD ["start"]
