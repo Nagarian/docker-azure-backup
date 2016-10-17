@@ -7,7 +7,7 @@ init() {
   echo '/var/files IN_CLOSE_WRITE /opt/src/exec.sh $#' > /etc/incron.d/backup-azure
   chmod 400 /etc/incron.d/backup-azure
 
-  # create script which push files to azure 
+  # create script which push files to azure
   cat > /opt/src/exec.sh << EOF
 #!/bin/bash
 
@@ -23,10 +23,10 @@ case ${1} in
   init|start|backup)
 
     # init()
-    
+
     case ${1} in
       init)
-        init()
+        init
         ;;
       start)
         init()
@@ -36,8 +36,9 @@ case ${1} in
         shift 1
         case ${1} in
         list)
-          if [ -z "${1}" ]; 
-            then 
+          shift 1
+          if [ ! -z "${1}" ];
+            then
               azure storage blob list -p "${1}" --container "${CONTAINER}"
           else
             azure storage blob list --container "${CONTAINER}"
@@ -46,10 +47,10 @@ case ${1} in
         restore)
           shift 1
           service incron stop
-          azure storage blob download --container "${CONTAINER}" -b "${1}" -d "/var/files/${1}"
+          azure storage blob download -q --container "${CONTAINER}" -b "${1}" -d "/var/files/${1}"
           incrond --foreground &
           ;;
-        help)
+        help|*)
           echo " backup list          - List backups on Azure."
           echo " backup list <schema> - List backups on Azure with <schema> filter."
           echo " backup restore       - Restore an existing backup (download it from Azure to /var/files folder."
