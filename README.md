@@ -16,11 +16,11 @@ container to backup files in folder to Microsoft Azure Storage.
 # Example of running
 
 ```bash
-docker run -rm --name docker-azure-backup \
+docker run -d --name docker-azure-backup \
 -e "AZURE_STORAGE_ACCOUNT=azure-storage"
 -e "AZURE_STORAGE_ACCESS_KEY=ashdgashdgasdsa--dadcdsfsd/sdfd--"
 -e "CONTAINER=logs-backup" \
-nagarian/docker-azure-backup:latest
+nagarian/docker-azure-backup
 ```
 
 ### Building image

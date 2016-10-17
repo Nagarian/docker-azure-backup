@@ -17,4 +17,4 @@ EOF
 
 chmod 511 /opt/src/exec.sh
 
-incrond
+incrond --foreground
