@@ -11,8 +11,13 @@ init() {
   cat > /opt/src/exec.sh << EOF
 #!/bin/bash
 
-export AZURE_STORAGE_ACCOUNT=${AZURE_STORAGE_ACCOUNT}
-export AZURE_STORAGE_ACCESS_KEY=${AZURE_STORAGE_ACCESS_KEY}
+export AZURE_STORAGE_ACCOUNT="${AZURE_STORAGE_ACCOUNT}"
+export AZURE_STORAGE_ACCESS_KEY="${AZURE_STORAGE_ACCESS_KEY}"
+
+if [ "\$\{DOWNLOADING_FILES\}" == "\$\{1\}" ];
+then
+    exit 0;
+fi
 
 azure storage blob upload -q /var/files/\$\{1\} "${CONTAINER}"
 EOF
@@ -46,9 +51,9 @@ case ${1} in
           ;;
         restore)
           shift 1
-          service incron stop
+          export DOWNLOADING_FILES="${1}" 
           azure storage blob download -q --container "${CONTAINER}" -b "${1}" -d "/var/files/${1}"
-          incrond --foreground &
+          export DOWNLOADING_FILES=""
           ;;
         help|*)
           echo " backup list          - List backups on Azure."
