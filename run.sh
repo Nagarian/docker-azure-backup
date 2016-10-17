@@ -4,24 +4,24 @@
 
 init() {
   # create incron watcher
-  echo '/var/files IN_CLOSE_WRITE /opt/src/exec.sh $#' > /etc/incron.d/backup-azure
+  echo '/var/files IN_CLOSE_WRITE azure-backup-uploader $#' > /etc/incron.d/backup-azure
   chmod 400 /etc/incron.d/backup-azure
 
   # create script which push files to azure
-  cat > /opt/src/exec.sh << EOF
+  cat > /usr/bin/azure-backup-uploader << EOF
 #!/bin/bash
 
 export AZURE_STORAGE_ACCOUNT="${AZURE_STORAGE_ACCOUNT}"
 export AZURE_STORAGE_ACCESS_KEY="${AZURE_STORAGE_ACCESS_KEY}"
 
-if [ "\$\{DOWNLOADING_FILES\}" == "\$\{1\}" ];
+if [ "\${DOWNLOADING_FILES}" == "\${1}" ];
 then
     exit 0;
 fi
 
-azure storage blob upload -q /var/files/\$\{1\} "${CONTAINER}"
+azure storage blob upload -q "/var/files/\${1}" "${CONTAINER}"
 EOF
-  chmod 511 /opt/src/exec.sh
+  chmod 511 /usr/bin/azure-backup-uploader
 }
 
 case ${1} in
