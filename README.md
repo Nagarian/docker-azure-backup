@@ -34,24 +34,24 @@ docker build -t nagarian47/docker-azure-backup .
 When you want to restore a file from azure, you must want to know what's have been uploaded yet.
 So you can obtain this information with this command-line :
 ```bash
-docker exec -it docker-azure-backup backup list
+docker exec -it docker-azure-backup /opt/src/run.sh backup list
 ``` 
 And you can filter this list with specify a `<schema>` :
 ```bash
-docker exec -it docker-azure-backup backup list backup-*
+docker exec -it docker-azure-backup /opt/src/run.sh backup list backup-*
 ```
 
 ### Restore backup from azure
 To restore a file from azure, you have to do :
 ```bash
-docker exec -it docker-azure-backup backup restore <file-name>
+docker exec -it docker-azure-backup /opt/src/run.sh backup restore <file-name>
 ```
 
 > NB : In order to use this feature, you need to run this docker with no read-only folder
 > ```bash
 > docker run -d --name docker-azure-backup \
 > -e "AZURE_STORAGE_ACCOUNT=azure-storage" \
-> -e "AZURE_STORAGE_ACCESS_KEY=ashdgashdgasdsa--dadcdsfsd/sdfd--" \
+> -e "AZURE_STORAGE_ACCESS_KEY=your-personnal-key" \
 > -e "CONTAINER=logs-backup" \
 > -v /var/log:/var/files \
 > nagarian47/docker-azure-backup
@@ -62,7 +62,7 @@ docker exec -it docker-azure-backup backup restore <file-name>
 ### Display commands help
 If you don\'t know what you can do, display the help :
 ```bash
-docker exec -it docker-azure-backup help
+docker exec -it docker-azure-backup /opt/src/run.sh help
 ```
 
 ### Get event logs
