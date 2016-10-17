@@ -14,9 +14,9 @@ init() {
 export AZURE_STORAGE_ACCOUNT="${AZURE_STORAGE_ACCOUNT}"
 export AZURE_STORAGE_ACCESS_KEY="${AZURE_STORAGE_ACCESS_KEY}"
 
-if [ "\${DOWNLOADING_FILES}" == "\${1}" ];
+if [ -f /tmp/downloaded_file ] && [ "\$(cat /tmp/downloaded_file)" == "\${1}" ];
 then
-  export DOWNLOADING_FILES=""
+  rm /tmp/downloaded_file
   exit 0;
 fi
 
@@ -52,7 +52,7 @@ case ${1} in
           ;;
         restore)
           shift 1
-          export DOWNLOADING_FILES="${1}" 
+          echo "${1}" > /tmp/downloaded_file
           azure storage blob download -q --container "${CONTAINER}" -b "${1}" -d "/var/files/${1}"
           ;;
         help|*)
