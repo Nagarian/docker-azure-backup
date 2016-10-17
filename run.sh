@@ -16,7 +16,8 @@ export AZURE_STORAGE_ACCESS_KEY="${AZURE_STORAGE_ACCESS_KEY}"
 
 if [ "\${DOWNLOADING_FILES}" == "\${1}" ];
 then
-    exit 0;
+  export DOWNLOADING_FILES=""
+  exit 0;
 fi
 
 azure storage blob upload -q "/var/files/\${1}" "${CONTAINER}"
@@ -53,7 +54,6 @@ case ${1} in
           shift 1
           export DOWNLOADING_FILES="${1}" 
           azure storage blob download -q --container "${CONTAINER}" -b "${1}" -d "/var/files/${1}"
-          export DOWNLOADING_FILES=""
           ;;
         help|*)
           echo " backup list          - List backups on Azure."
