@@ -28,3 +28,10 @@ nagarian/docker-azure-backup
 ```bash
 docker build -t nagarian/docker-azure-backup .
 ```
+
+# Usage
+
+## Get event logs
+```bash
+docker logs -f docker-azure-backup
+```
