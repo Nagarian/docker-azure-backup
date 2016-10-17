@@ -29,7 +29,7 @@ case ${1} in
         init
         ;;
       start)
-        init()
+        init
         incrond --foreground
         ;;
       backup)
