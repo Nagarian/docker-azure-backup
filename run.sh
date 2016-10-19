@@ -52,13 +52,21 @@ case ${1} in
           ;;
         restore)
           shift 1
-          echo "${1}" > /tmp/downloaded_file
-          azure storage blob download -q --container "${CONTAINER}" -b "${1}" -d "/var/files/${1}"
+          if [ ! -z "${1}" ];
+            then
+              echo "${1}" > /tmp/downloaded_file
+              azure storage blob download -q --container "${CONTAINER}" -b "${1}" -d "/var/files/${1}"
+          else
+            azure storage blob list --container "${CONTAINER}"
+            read blobname
+            azure storage blob download -q --container "${CONTAINER}" -b "${blobname}" -d "/var/files/${1}"
+          fi
           ;;
         help|*)
-          echo " backup list          - List backups on Azure."
-          echo " backup list <schema> - List backups on Azure with <schema> filter."
-          echo " backup restore       - Restore an existing backup (download it from Azure to /var/files folder."
+          echo " backup list               - List backups on Azure."
+          echo " backup list <schema>      - List backups on Azure with <schema> filter."
+          echo " backup restore            - Restore an existing backup (download it from Azure to /var/files folder."
+          echo " backup restore <blobname> - Restore specified backup from Azure to /var/files folder."
           ;;
         esac
         ;;
