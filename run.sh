@@ -58,6 +58,7 @@ case ${1} in
               azure storage blob download -q --container "${CONTAINER}" -b "${1}" -d "/var/files/${1}"
           else
             azure storage blob list --container "${CONTAINER}"
+            printf "\e[1;36m Blob name : \033[0m"
             read blobname
             azure storage blob download -q --container "${CONTAINER}" -b "${blobname}" -d "/var/files/${1}"
           fi
@@ -65,7 +66,7 @@ case ${1} in
         help|*)
           echo " backup list               - List backups on Azure."
           echo " backup list <schema>      - List backups on Azure with <schema> filter."
-          echo " backup restore            - Restore an existing backup (download it from Azure to /var/files folder."
+          echo " backup restore            - Restore an existing backup from Azure to /var/files folder (interactive mode)."
           echo " backup restore <blobname> - Restore specified backup from Azure to /var/files folder."
           ;;
         esac
